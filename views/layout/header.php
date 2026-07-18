@@ -42,6 +42,7 @@ if (isset($_SESSION['user_id'])) {
         html.sidebar-collapsed-pending .main-content { margin-left: 80px !important; transition: none !important; }
         html.dark-mode-pending body { background-color: #0c1222 !important; }
     </style>
+    <link rel="icon" type="image/png" href="<?= BASE_URL ?>/assets/img/favicon.png">
 </head>
 
 <body>

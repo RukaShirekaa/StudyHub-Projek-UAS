@@ -296,6 +296,7 @@ class AuthController {
                 'code' => $_GET['code']
             ]);
 
+            /** @var \League\OAuth2\Client\Provider\GoogleUser $ownerDetails */
             $ownerDetails = $provider->getResourceOwner($token);
             $googleId = $ownerDetails->getId();
             $email = $ownerDetails->getEmail();
