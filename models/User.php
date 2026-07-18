@@ -20,9 +20,12 @@ class User {
      * - Gap of 2+ days, or first ever login: reset to 1.
      */
     public function updateStreak($id) {
-        $stmt = $this->pdo->prepare("SELECT last_login FROM users WHERE id = ?");
+        $stmt = $this->pdo->prepare("SELECT last_login, streak_count FROM users WHERE id = ?");
         $stmt->execute([$id]);
-        $last = $stmt->fetchColumn();
+        $row = $stmt->fetch();
+        
+        $last = $row ? $row['last_login'] : null;
+        $currentStreak = $row ? (int)$row['streak_count'] : 0;
 
         $today = date('Y-m-d');
 
@@ -36,6 +39,17 @@ class User {
                 $stmt = $this->pdo->prepare("UPDATE users SET streak_count = streak_count + 1, last_login = NOW() WHERE id = ?");
                 $stmt->execute([$id]);
                 return;
+            }
+            
+            // Streak broken
+            if ($currentStreak > 1) {
+                $msg = "Yahhh, streak login kamu sebesar $currentStreak hari terputus karena absen login. Yuk bangun kembali konsistensimu mulai hari ini!";
+                try {
+                    $notifStmt = $this->pdo->prepare("INSERT INTO notifications (user_id, type, message) VALUES (?, 'announcement', ?)");
+                    $notifStmt->execute([$id, $msg]);
+                } catch(Exception $e) {
+                    // Ignore if notifications table doesn't exist or other errors
+                }
             }
         }
 

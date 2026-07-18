@@ -107,7 +107,11 @@ if (isset($_SESSION['user_id'])) {
                 $_SESSION['user_role'] = $u['role'] ?? 'Mahasiswa';
             }
             $photoName = !empty($_SESSION['user_photo']) ? $_SESSION['user_photo'] : 'default.png';
-            $photoPath = BASE_URL . '/assets/' . ($photoName !== 'default.png' ? 'uploads/' . $photoName : 'img/default.png');
+            if (strpos($photoName, 'http') === 0) {
+                $photoPath = $photoName;
+            } else {
+                $photoPath = BASE_URL . '/assets/' . ($photoName !== 'default.png' ? 'uploads/' . $photoName : 'img/default.png');
+            }
             $userRole = $_SESSION['user_role'] ?? 'Mahasiswa';
             ?>
             <a href="<?= BASE_URL ?>/profile" class="sidebar-user" style="text-decoration:none;">

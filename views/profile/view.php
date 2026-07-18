@@ -10,7 +10,8 @@
             </div>
             
             <div style="text-align:center; margin-bottom:1.5rem;">
-                <img src="<?= BASE_URL ?>/assets/<?= $user['photo'] !== 'default.png' ? 'uploads/' . $user['photo'] : 'img/default.png' ?>" alt="Profile" style="width:120px; height:120px; border-radius:50%; object-fit:cover; border:4px solid var(--primary); margin-bottom:1rem;">
+<?php $photoPathProfileView = (!empty($user['photo']) && $user['photo'] !== 'default.png') ? (strpos($user['photo'], 'http') === 0 ? $user['photo'] : BASE_URL . '/assets/uploads/' . $user['photo']) : BASE_URL . '/assets/img/default.png'; ?>
+                <img src="<?= $photoPathProfileView ?>" alt="Profile" style="width:120px; height:120px; border-radius:50%; object-fit:cover; border:4px solid var(--primary); margin-bottom:1rem;">
                 <h2 style="margin:0; font-size:1.5rem; color:var(--text-main);"><?= htmlspecialchars($user['name']) ?></h2>
                 <p style="color:var(--text-muted); font-size:0.9rem;"><i class="fa-solid fa-envelope" style="font-size:0.8rem; margin-right:0.25rem;"></i><?= htmlspecialchars($user['email']) ?></p>
             </div>
