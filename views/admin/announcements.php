@@ -20,12 +20,13 @@ require_once __DIR__ . '/layout/header.php';
                 <tr style="border-bottom: 2px solid var(--border-color); text-align: left;">
                     <th style="padding: 1rem; font-size: 0.85rem; color: var(--text-muted); width: 200px;">Waktu</th>
                     <th style="padding: 1rem; font-size: 0.85rem; color: var(--text-muted);">Pesan Pengumuman</th>
+                    <th style="padding: 1rem; font-size: 0.85rem; color: var(--text-muted); width: 80px; text-align: center;">Aksi</th>
                 </tr>
             </thead>
             <tbody>
                 <?php if (empty($announcements)): ?>
                 <tr>
-                    <td colspan="2" style="text-align: center; color: var(--text-muted); padding: 2rem;">Belum ada pengumuman yang dikirim.</td>
+                    <td colspan="3" style="text-align: center; color: var(--text-muted); padding: 2rem;">Belum ada pengumuman yang dikirim.</td>
                 </tr>
                 <?php else: ?>
                 <?php foreach($announcements as $a): ?>
@@ -43,6 +44,12 @@ require_once __DIR__ . '/layout/header.php';
                                 <span style="font-size: 0.9rem; line-height: 1.4; display: block; color: var(--text-main);"><?= nl2br(htmlspecialchars($a['message'])) ?></span>
                             </div>
                         </div>
+                    </td>
+                    <td style="padding: 1rem; text-align: center;">
+                        <form action="<?= BASE_URL ?>/admin/announcements/delete" method="POST" onsubmit="return confirm('Hapus pengumuman ini? Akan dihapus dari semua pengguna.');" style="margin: 0;">
+                            <input type="hidden" name="message" value="<?= htmlspecialchars($a['message']) ?>">
+                            <button type="submit" class="btn btn-ghost" style="color: #ef4444; padding: 0.4rem 0.6rem;" title="Hapus"><i class="fa-solid fa-trash"></i></button>
+                        </form>
                     </td>
                 </tr>
                 <?php endforeach; ?>

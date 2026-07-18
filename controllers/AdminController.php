@@ -207,4 +207,17 @@ class AdminController {
             exit;
         }
     }
+
+    public function deleteAnnouncement() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $message = $_POST['message'] ?? '';
+            if ($message !== '') {
+                $pdo = Database::getInstance();
+                $stmt = $pdo->prepare("DELETE FROM notifications WHERE type = 'announcement' AND message = ?");
+                $stmt->execute([$message]);
+            }
+        }
+        header("Location: " . BASE_URL . "/admin/announcements");
+        exit;
+    }
 }

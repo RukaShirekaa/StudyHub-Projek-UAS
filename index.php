@@ -144,5 +144,6 @@ $router->get('/admin/materials', ['AdminController', 'materials']);
 $router->get('/admin/materials/delete', ['AdminController', 'deleteMaterial']);
 $router->get('/admin/announcements', ['AdminController', 'announcements']);
 $router->post('/admin/announcements/send', ['AdminController', 'sendAnnouncement']);
+$router->post('/admin/announcements/delete', ['AdminController', 'deleteAnnouncement']);
 
 $router->resolve();
