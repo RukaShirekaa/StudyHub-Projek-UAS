@@ -44,6 +44,11 @@ class DashboardController {
         $recentTopics = array_slice($allTopics, 0, 5);
         $recentQuizzes = $userModel->getQuizHistory($userId);
 
+        // Fetch announcements for this user (latest 5)
+        $stmt = $pdo->prepare("SELECT id, message, created_at, is_read FROM notifications WHERE user_id = ? AND type = 'announcement' ORDER BY created_at DESC LIMIT 5");
+        $stmt->execute([$userId]);
+        $announcements = $stmt->fetchAll();
+
         $title = 'Dashboard Utama';
         $active = 'dashboard';
         require_once __DIR__ . '/../views/dashboard/index.php';

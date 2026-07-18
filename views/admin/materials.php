@@ -74,7 +74,7 @@ require_once __DIR__ . '/layout/header.php';
                                 <?= date('d M Y', strtotime($m['created_at'])) ?>
                             </td>
                             <td style="padding: 1rem; text-align: center;">
-                                <a href="<?= BASE_URL ?>/<?= ltrim($m['file_path'], '/') ?>" target="_blank" class="btn btn-outline" style="padding: 0.25rem 0.75rem; font-size: 0.85rem; margin-right: 0.5rem;" title="Lihat/Download">
+                                <a href="<?= BASE_URL ?>/assets/uploads/<?= ltrim($m['file_path'], '/') ?>" target="_blank" class="btn btn-outline" style="padding: 0.25rem 0.75rem; font-size: 0.85rem; margin-right: 0.5rem;" title="Lihat/Download">
                                     <i class="fa-solid fa-eye"></i>
                                 </a>
                                 <a href="<?= BASE_URL ?>/admin/materials/delete?id=<?= $m['id'] ?>" class="btn btn-outline" style="color: var(--accent-rose); border-color: var(--accent-rose); padding: 0.25rem 0.75rem; font-size: 0.85rem;" onclick="return confirm('Apakah Anda yakin ingin menghapus materi ini secara permanen dari server?')" title="Hapus">

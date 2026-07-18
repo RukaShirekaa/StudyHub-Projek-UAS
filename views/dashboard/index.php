@@ -62,6 +62,31 @@
     </div>
 </div>
 
+<!-- Pengumuman -->
+<?php if (!empty($announcements)): ?>
+<div style="margin-bottom: 2.5rem;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+        <h3 style="font-size: 1.15rem; font-weight: 700; margin: 0;"><i class="fa-solid fa-bullhorn" style="color: #ef4444; margin-right: 0.4rem;"></i>Pengumuman</h3>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 0.85rem;">
+        <?php foreach($announcements as $a): ?>
+        <div class="card" style="display: flex; align-items: flex-start; gap: 1rem; padding: 1.1rem 1.25rem; border-left: 4px solid #ef4444; <?= empty($a['is_read']) ? 'background: rgba(239, 68, 68, 0.04);' : '' ?>">
+            <div style="width: 42px; height: 42px; border-radius: 50%; background: rgba(239, 68, 68, 0.1); color: #ef4444; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                <i class="fa-solid fa-bullhorn"></i>
+            </div>
+            <div style="flex: 1; min-width: 0;">
+                <div style="display: flex; justify-content: space-between; align-items: center; gap: 1rem; margin-bottom: 0.25rem;">
+                    <strong style="font-size: 0.95rem;">Pengumuman Admin</strong>
+                    <span style="font-size: 0.75rem; color: var(--text-muted); white-space: nowrap;"><?= date('d M Y, H:i', strtotime($a['created_at'])) ?></span>
+                </div>
+                <p style="font-size: 0.9rem; line-height: 1.5; margin: 0; color: var(--text-main);"><?= nl2br(htmlspecialchars($a['message'])) ?></p>
+            </div>
+        </div>
+        <?php endforeach; ?>
+    </div>
+</div>
+<?php endif; ?>
+
 <!-- Mata Kuliah Saya -->
 <div style="margin-bottom: 2.5rem;">
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
