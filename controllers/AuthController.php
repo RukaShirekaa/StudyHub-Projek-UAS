@@ -262,4 +262,93 @@ class AuthController {
             }
         }
     }
+
+    private function getGoogleProvider() {
+        return new \League\OAuth2\Client\Provider\Google([
+            'clientId'     => $_ENV['GOOGLE_CLIENT_ID'],
+            'clientSecret' => $_ENV['GOOGLE_CLIENT_SECRET'],
+            'redirectUri'  => $_ENV['GOOGLE_REDIRECT_URI'],
+        ]);
+    }
+
+    public function googleLogin() {
+        $provider = $this->getGoogleProvider();
+        $authUrl = $provider->getAuthorizationUrl();
+        $_SESSION['oauth2state'] = $provider->getState();
+        header('Location: ' . $authUrl);
+        exit;
+    }
+
+    public function googleCallback() {
+        $provider = $this->getGoogleProvider();
+        
+        if (empty($_GET['state']) || (isset($_SESSION['oauth2state']) && $_GET['state'] !== $_SESSION['oauth2state'])) {
+            if (isset($_SESSION['oauth2state'])) {
+                unset($_SESSION['oauth2state']);
+            }
+            $loginUrl = BASE_URL . '/login';
+            echo "<script>alert('Invalid State'); window.location.href='$loginUrl';</script>";
+            exit;
+        }
+
+        try {
+            $token = $provider->getAccessToken('authorization_code', [
+                'code' => $_GET['code']
+            ]);
+
+            /** @var \League\OAuth2\Client\Provider\GoogleUser $ownerDetails */
+            $ownerDetails = $provider->getResourceOwner($token);
+            $googleId = $ownerDetails->getId();
+            $email = $ownerDetails->getEmail();
+            $name = $ownerDetails->getName();
+            $avatar = $ownerDetails->getAvatar();
+
+            $pdo = Database::getInstance();
+            
+            // Cek jika user sudah ada berdasarkan google_id
+            $stmt = $pdo->prepare("SELECT * FROM users WHERE google_id = ?");
+            $stmt->execute([$googleId]);
+            $user = $stmt->fetch();
+
+            if (!$user) {
+                // Cek jika user ada berdasarkan email
+                $stmt = $pdo->prepare("SELECT * FROM users WHERE email = ?");
+                $stmt->execute([$email]);
+                $user = $stmt->fetch();
+                
+                if ($user) {
+                    // Update user dengan google_id
+                    $stmt = $pdo->prepare("UPDATE users SET google_id = ?, is_verified = TRUE WHERE id = ?");
+                    $stmt->execute([$googleId, $user['id']]);
+                } else {
+                    // Buat user baru
+                    $stmt = $pdo->prepare("INSERT INTO users (google_id, name, email, is_verified, photo) VALUES (?, ?, ?, TRUE, ?)");
+                    $stmt->execute([$googleId, $name, $email, $avatar]);
+                    $userId = $pdo->lastInsertId();
+                    
+                    $stmt = $pdo->prepare("SELECT * FROM users WHERE id = ?");
+                    $stmt->execute([$userId]);
+                    $user = $stmt->fetch();
+                }
+            }
+
+            // Set session
+            $_SESSION['user_id'] = $user['id'];
+            $_SESSION['role'] = $user['role'];
+            $_SESSION['user_name'] = $user['name'];
+
+            // Update daily login streak
+            require_once __DIR__ . '/../models/User.php';
+            (new User())->updateStreak($user['id']);
+
+            $dashUrl = BASE_URL . '/dashboard';
+            header("Location: $dashUrl");
+            exit;
+            
+        } catch (Exception $e) {
+            $loginUrl = BASE_URL . '/login';
+            echo "<script>alert('Gagal mengambil access token dari Google'); window.location.href='$loginUrl';</script>";
+            exit;
+        }
+    }
 }

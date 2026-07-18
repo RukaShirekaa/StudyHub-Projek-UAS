@@ -42,6 +42,7 @@ if (isset($_SESSION['user_id'])) {
         html.sidebar-collapsed-pending .main-content { margin-left: 80px !important; transition: none !important; }
         html.dark-mode-pending body { background-color: #0c1222 !important; }
     </style>
+    <link rel="icon" type="image/png" href="<?= BASE_URL ?>/assets/img/favicon.png">
 </head>
 
 <body>
@@ -107,7 +108,11 @@ if (isset($_SESSION['user_id'])) {
                 $_SESSION['user_role'] = $u['role'] ?? 'Mahasiswa';
             }
             $photoName = !empty($_SESSION['user_photo']) ? $_SESSION['user_photo'] : 'default.png';
-            $photoPath = BASE_URL . '/assets/' . ($photoName !== 'default.png' ? 'uploads/' . $photoName : 'img/default.png');
+            if (strpos($photoName, 'http') === 0) {
+                $photoPath = $photoName;
+            } else {
+                $photoPath = BASE_URL . '/assets/' . ($photoName !== 'default.png' ? 'uploads/' . $photoName : 'img/default.png');
+            }
             $userRole = $_SESSION['user_role'] ?? 'Mahasiswa';
             ?>
             <a href="<?= BASE_URL ?>/profile" class="sidebar-user" style="text-decoration:none;">

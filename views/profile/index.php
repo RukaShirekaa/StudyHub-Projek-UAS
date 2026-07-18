@@ -1,4 +1,6 @@
-<?php require_once __DIR__ . '/../layout/header.php'; ?>
+<?php require_once __DIR__ . '/../layout/header.php'; 
+$photoPathProfile = (!empty($user['photo']) && $user['photo'] !== 'default.png') ? (strpos($user['photo'], 'http') === 0 ? $user['photo'] : BASE_URL . '/assets/uploads/' . $user['photo']) : BASE_URL . '/assets/img/default.png';
+?>
 
 <div class="profile-layout" style="display:flex; gap:1.5rem; align-items:flex-start;">
     
@@ -15,7 +17,7 @@
             
             <div style="text-align:center; margin-bottom:1.5rem;">
                 <div style="position: relative; display: inline-block;">
-                    <img src="<?= BASE_URL ?>/assets/<?= (!empty($user['photo']) && $user['photo'] !== 'default.png') ? 'uploads/' . $user['photo'] : 'img/default.png' ?>" alt="Profile" style="width:110px; height:110px; border-radius:var(--radius-full); object-fit:cover; border:4px solid transparent; background-image: var(--primary-gradient); background-origin: border-box; background-clip: content-box, border-box; box-shadow: 0 4px 15px rgba(99, 102, 241, 0.2);">
+                    <img src="<?= $photoPathProfile ?>" alt="Profile" style="width:110px; height:110px; border-radius:var(--radius-full); object-fit:cover; border:4px solid transparent; background-image: var(--primary-gradient); background-origin: border-box; background-clip: content-box, border-box; box-shadow: 0 4px 15px rgba(99, 102, 241, 0.2);">
                 </div>
                 <h2 style="margin:1rem 0 0.15rem; font-size:1.35rem; color:var(--text-main);"><?= htmlspecialchars($user['name']) ?></h2>
                 <p style="color:var(--text-muted); font-size: 0.9rem;"><i class="fa-solid fa-envelope" style="font-size: 0.8rem; margin-right: 0.25rem;"></i><?= htmlspecialchars($user['email']) ?></p>
@@ -53,7 +55,7 @@
             
             <form action="<?= BASE_URL ?>/profile/update" method="POST" enctype="multipart/form-data">
                 <div style="text-align:center; margin-bottom:2rem;">
-                    <img src="<?= BASE_URL ?>/assets/<?= (!empty($user['photo']) && $user['photo'] !== 'default.png') ? 'uploads/' . $user['photo'] : 'img/default.png' ?>" alt="Profile" style="width:110px; height:110px; border-radius:var(--radius-full); object-fit:cover; border:4px solid var(--primary); margin-bottom:1rem;">
+                    <img src="<?= $photoPathProfile ?>" alt="Profile" style="width:110px; height:110px; border-radius:var(--radius-full); object-fit:cover; border:4px solid var(--primary); margin-bottom:1rem;">
                     <div>
                         <label class="btn btn-outline" style="cursor:pointer; font-size:0.85rem;">
                             <i class="fa-solid fa-camera"></i> Ubah Foto

@@ -250,6 +250,7 @@
             document.documentElement.classList.add('light-mode-pending');
         }
     </script>
+    <link rel="icon" type="image/png" href="<?= BASE_URL ?>/assets/img/favicon.png">
 </head>
 <body class="<?= isset($_COOKIE['theme']) && $_COOKIE['theme'] == 'light' ? 'light-mode' : '' ?>">
     <script>

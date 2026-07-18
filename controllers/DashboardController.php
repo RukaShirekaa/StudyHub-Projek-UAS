@@ -30,11 +30,12 @@ class DashboardController {
         $allMaterials = $materialModel->getAll($userId);
         $allCourses = $courseModel->getAll(null, $userId);
         $allTopics = $forumModel->getAll();
+        $userTopics = $forumModel->getAll('diikuti', $userId);
 
         $stats = [
             'total_materi' => count($allMaterials), 
             'total_catatan' => $userStats['total_notes'],
-            'total_diskusi' => count($allTopics),
+            'total_diskusi' => count($userTopics),
             'total_quiz' => $userStats['total_quizzes'],
             'streak' => $userStats['streak']
         ];
