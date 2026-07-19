@@ -34,7 +34,7 @@ class Router {
 
         // Auth Middleware
         $isLoggedIn = isset($_SESSION['user_id']);
-        $guestRoutes = ['/', '/login', '/register', '/verify', '/forgot-password', '/reset-password', '/auth/google', '/auth/google/callback', '/login_google.php'];
+        $guestRoutes = ['/', '/login', '/register', '/verify', '/forgot-password', '/reset-password'];
         
         // Allow logout to be accessed only when logged in
         if ($isLoggedIn && in_array($uri, $guestRoutes)) {

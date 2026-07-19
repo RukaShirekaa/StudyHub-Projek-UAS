@@ -232,7 +232,6 @@
         }
         .demo-text h2 {
             font-size: 2.25rem;
-            line-height: 1.3;
             margin-bottom: 1rem;
             color: var(--text-main);
         }
@@ -254,9 +253,6 @@
                 flex-direction: column;
                 text-align: center;
                 gap: 2rem;
-            }
-            .demo-text h2 {
-                font-size: 1.85rem;
             }
             .demo-visual {
                 max-width: 100%;
@@ -409,10 +405,8 @@
         }
         
         /* Amba AI Simulator */
-        @media (min-width: 769px) {
-            .demo-section-alt {
-                flex-direction: row-reverse;
-            }
+        .demo-section-alt {
+            flex-direction: row-reverse;
         }
         .sim-msg-left {
             align-self: flex-start;
@@ -597,7 +591,6 @@
             document.documentElement.classList.add('light-mode-pending');
         }
     </script>
-    <link rel="icon" type="image/png" href="<?= BASE_URL ?>/assets/img/favicon.png">
 </head>
 <body class="<?= isset($_COOKIE['theme']) && $_COOKIE['theme'] == 'light' ? 'light-mode' : '' ?>">
     <script>
