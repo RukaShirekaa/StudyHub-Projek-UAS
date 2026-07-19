@@ -630,8 +630,7 @@ a.card:hover, .interactive-card:hover {
     }
 
     .topbar {
-        height: 60px;
-        padding: 0.5rem 1rem;
+        padding: 0.75rem 1rem;
     }
 
     .content-area {

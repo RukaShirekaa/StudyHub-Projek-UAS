@@ -25,8 +25,7 @@ require_once __DIR__ . '/layout/header.php';
                 <tr style="border-bottom: 1px solid var(--border-color);">
                     <td style="padding: 1rem;">
                         <div style="display: flex; align-items: center; gap: 1rem;">
-<?php $adminUserPhoto = (!empty($user['photo']) && $user['photo'] !== 'default.png') ? (strpos($user['photo'], 'http') === 0 ? $user['photo'] : BASE_URL . '/assets/uploads/' . $user['photo']) : BASE_URL . '/assets/img/default.png'; ?>
-                            <img src="<?= $adminUserPhoto ?>" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;">
+                            <img src="<?= BASE_URL ?>/assets/<?= (!empty($user['photo']) && $user['photo'] !== 'default.png') ? 'uploads/' . $user['photo'] : 'img/default.png' ?>" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;">
                             <div>
                                 <strong style="display: block;"><?= htmlspecialchars($user['name']) ?></strong>
                                 <span style="font-size: 0.8rem; color: var(--text-muted);"><?= htmlspecialchars($user['prodi'] ?: 'Belum diisi') ?></span>
